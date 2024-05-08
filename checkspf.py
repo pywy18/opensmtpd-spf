@@ -11,6 +11,10 @@ list_of_networks = [
     ipaddress.IPv6Network("::1/128"),
     ipaddress.IPv4Network("127.0.0.1/32"),
 ]
+# for domains with broken spf but we still want to receive mails
+domain_whitelist = [
+    'agence.generali.fr',
+]
 
 def recv(stdin):
     return stdin.readline().rstrip('\r\n')
@@ -57,8 +61,10 @@ if __name__ == "__main__":
             ipsrc, identity = tuple_connection[sessionid][:2]
             #we check if whitelisted
             ip_to_check = ipaddress.ip_address(ipsrc)
-            is_whitelisted = any(ip_to_check in network for network in list_of_networks)
-            if is_whitelisted:
+            domain = mailfrom.split('@')[1] 
+            is_ip_whitelisted = any(ip_to_check in network for network in list_of_networks)
+            is_domain_whitelisted = domain in domain_whitelist
+            if is_ip_whitelisted or is_domain_whitelisted:
                 send(_stdout, f"filter-result|{sessionid}|{token}|proceed")
             else:
                 result = spf.check2(i=ipsrc, s=mailfrom, h=identity)

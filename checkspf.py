@@ -61,7 +61,10 @@ if __name__ == "__main__":
             ipsrc, identity = tuple_connection[sessionid][:2]
             #we check if whitelisted
             ip_to_check = ipaddress.ip_address(ipsrc)
-            domain = mailfrom.split('@')[1] 
+             if len(mailfrom.split('@')) == 2:
+                domain = mailfrom.split('@')[1] 
+            else: 
+                domain = ''
             is_ip_whitelisted = any(ip_to_check in network for network in list_of_networks)
             is_domain_whitelisted = domain in domain_whitelist
             if is_ip_whitelisted or is_domain_whitelisted:

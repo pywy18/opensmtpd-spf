@@ -64,7 +64,7 @@ if __name__ == "__main__":
              if len(mailfrom.split('@')) == 2:
                 domain = mailfrom.split('@')[1] 
             else: 
-                domain = ''
+                domain = identity
             is_ip_whitelisted = any(ip_to_check in network for network in list_of_networks)
             is_domain_whitelisted = domain in domain_whitelist
             if is_ip_whitelisted or is_domain_whitelisted:

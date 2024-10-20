@@ -3,7 +3,7 @@
 SPF filter for opensmtpd.
 Requires python3 spf module
 
-Tested with openbsd 7.3, 7.4 and 7.5
+Tested with openbsd 7.5 and 7.6
 
 # Installation
 #pkg_add py3-spf 
